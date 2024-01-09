@@ -34,7 +34,7 @@ func main() {
 		// Concatenate all arguments with a space
 		item := strings.Join(os.Args[1:], " ")
 
-		// Add the task
+		// Add the item
 		l.Add(item)
 
 		// Save the new list
