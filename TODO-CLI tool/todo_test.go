@@ -68,54 +68,34 @@ func TestDelete(t *testing.T) {
 
 // TestSaveGet tests the Save and Get methods of the List type
 func TestSaveGet(t *testing.T) {
+	// Create two lists
 	l1 := todo.List{}
 	l2 := todo.List{}
 
+	// Add a task to l1
 	taskName := "New Task"
 	l1.Add(taskName)
-	
 	if l1[0].Task != taskName {
 		t.Errorf("Expected %q, got %q instead.", taskName, l1[0].Task)
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-// TestSaveGet tests the Save and Get methods of the List type
-func TestSaveGet(t *testing.T) {
-	l1 := todo.List{}
-	l2 := todo.List{}
-
-	taskName := "New Task"
-	l1.Add(taskName)
-
-	if l1[0].Task != taskName {
-		t.Errorf("Expected %q, got %q instead.", taskName, l1[0].Task)
-	}
-
+	// Create a temp file to me used in the Save method and
+	// defer closure
 	tf, err := os.CreateTemp("", "")
 	if err != nil {
 		t.Fatalf("Error creating temp file: %s", err)
 	}
 	defer os.Remove(tf.Name())
 
+	// Save the data to the temp file with the Save method
 	if err := l1.Save(tf.Name()); err != nil {
 		t.Fatalf("Error saving list to file: %s", err)
 	}
 
+	// Get the saved data from the temp file with the Get method
 	if err := l2.Get(tf.Name()); err != nil {
 		t.Fatalf("Error getting list from file: %s", err)
 	}
-
 	if l1[0].Task != l2[0].Task {
 		t.Errorf("Task %q should match %q task.", l1[0].Task, l2[0].Task)
 	}
