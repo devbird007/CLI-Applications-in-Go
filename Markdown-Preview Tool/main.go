@@ -14,17 +14,16 @@ import (
 const (
 	header = `<!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>Markdown Preview Tool</title>
-  </head>
-  <body>
-	  `
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>Markdown Preview Tool</title>
+    </head>
+    <body>
+`
 
 	footer = `
-  </body>
-</html>
-`
+    </body>
+</html>`
 )
 
 func main() {
@@ -59,7 +58,7 @@ func run(filename string) error {
 
 func parseContent(input []byte) []byte {
 	// Parse the markdown file through blackfriday and bluemonday
-	// to generatea valid and safe HTML
+	// to generate a valid and safe HTML
 	output := blackfriday.Run(input)
 	body := bluemonday.UGCPolicy().SanitizeBytes(output)
 
