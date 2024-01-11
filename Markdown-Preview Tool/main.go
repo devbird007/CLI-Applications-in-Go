@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
+	"runtime"
 
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/russross/blackfriday/v2"
@@ -86,4 +88,35 @@ func parseContent(input []byte) []byte {
 func saveHTML(outFname string, data []byte) error {
 	// Write the bytes to the file
 	return os.WriteFile(outFname, data, 0644)
+}
+
+func preview(fname string) error {
+	cName := ""
+	cParams := []string{}
+
+	// Define executable based on OS
+	switch runtime.GOOS {
+	case "linux":
+		cName = "xdg-open"
+	case "windows":
+		cName = "cmd.exe"
+		cParams = []string{"/C", "start"}
+	case "darwin":
+		cName = "open"
+	default:
+		return fmt.Errorf("OS not supported")
+	}
+
+	// Append filename to parameters slice
+	cParams = append(cParams, fname)
+
+	// Locate executable in PATH
+	cPath, err := exec.LookPath(cName)
+
+	if err != nil {
+		return err
+	}
+
+	// Open the file using default program
+	return exec.Command(cPath, cParams...).Run()
 }
