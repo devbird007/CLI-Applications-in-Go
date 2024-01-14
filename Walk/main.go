@@ -44,6 +44,7 @@ func run(root string, out io.Writer, cfg config) error {
 		if err != nil {
 			return err
 		}
+
 		if filterOut(path, cfg.ext, cfg.size, info) {
 			return nil
 		}
