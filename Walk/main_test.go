@@ -3,6 +3,10 @@ package main
 import (
 	"bytes"
 	"testing"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
 )
 
 func TestRun(t *testing.T) {
@@ -45,3 +49,21 @@ func TestRun(t *testing.T) {
 		})
 	}
 }
+
+func createTempDir(t *testing.T, files map[string]int) (dirname string, cleanup func()) {
+	t.Helper()
+
+	tempDir, err := os.MkdirTemp("", "walktest")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for k, n := range files {
+		for j := 1; j <= n; j++ {
+			fname := fmt.Sprintf("file%d%s", j, k)
+			fpath := filepath.Join(tempDir, fname)
+			if err := os.WriteFile(fpath, []byte("dummy"), 0644); err != nil {
+				t.Fatal(err)
+			}
+		}
+	}
