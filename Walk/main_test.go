@@ -66,7 +66,6 @@ func createTempDir(t *testing.T, files map[string]int) (dirname string, cleanup 
 			}
 		}
 	}
-
 	return tempDir, func() { os.RemoveAll(tempDir) }
 }
 
