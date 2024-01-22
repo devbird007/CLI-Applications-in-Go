@@ -65,6 +65,7 @@ func main() {
 
 func run(root string, out io.Writer, cfg config) error {
 	delLogger := log.New(cfg.wLog, "DELETED FILE: ", log.LstdFlags)
+
 	return filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
