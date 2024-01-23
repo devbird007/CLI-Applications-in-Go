@@ -34,6 +34,7 @@ func delFile(path string, delLogger *log.Logger) error {
 }
 
 func archiveFile(destDir, root, path string) error {
+	// Get the target path
 	info, err := os.Stat(destDir)
 	if err != nil {
 		return err
@@ -55,6 +56,7 @@ func archiveFile(destDir, root, path string) error {
 		return err
 	}
 
+	// Compressing the data
 	out, err := os.OpenFile(targetPath, os.O_RDWR|os.O_CREATE, 0644)
 	if err != nil {
 		return err
@@ -68,13 +70,11 @@ func archiveFile(destDir, root, path string) error {
 	defer in.Close()
 
 	zw := gzip.NewWriter(out)
-
 	zw.Name = filepath.Base(path)
 
 	if _, err = io.Copy(zw, in); err != nil {
 		return err
 	}
-
 	if err := zw.Close(); err != nil {
 		return err
 	}
