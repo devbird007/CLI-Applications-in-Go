@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -136,3 +137,25 @@ func TestRunDelExtension(t *testing.T) {
 		})
 	}
 }
+
+func TestRunArchive(t *testing.T) {
+	// Archiving test cases
+	testCases := []struct {
+		name string
+		cfg config
+		extNoArchive string
+		nArchive int
+		nNoArchive int
+	}{
+		{name: "ArchiveExtensionNoMatch",
+		cfg: config{ext: ".log"},
+		extNoArchive: ".gz", nArchive: 0, nNoArchive: 10},
+		{name: "ArchiveExtensionMatch",
+		cfg: config{ext: ".log"},
+		extNoArchive: "", nArchive: 10, nNoArchive: 0},
+		{name: "ArchiveExtensionMixed",
+		extNoArchive: ".gz", nArchive: 5, nNoArchive: 5},
+	}
+
+	// Execute RunArchive test cases
+	
