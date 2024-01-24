@@ -147,7 +147,7 @@ func TestRunArchive(t *testing.T) {
 		nArchive     int
 		nNoArchive   int
 	}{
-		{name: "ArchiveExtensionNoMatch",
+		{name: "ArchiveExtensionMatch",
 			cfg:          config{ext: ".log"},
 			extNoArchive: ".gz", nArchive: 0, nNoArchive: 10},
 		{name: "ArchiveExtensionMatch",
@@ -181,23 +181,31 @@ func TestRunArchive(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			// Get the required pattern of the files expected to be archived
+			// The below tests that the files that that are read from the
+			// tempDir command are also the files that are listed from the
+			// output of the run() function.
+
+			// Get the required pattern of the files to be archived
 			pattern := filepath.Join(tempDir, fmt.Sprintf("*%s", tc.cfg.ext))
 			expFiles, err := filepath.Glob(pattern)
 			if err != nil {
 				t.Fatal(err)
 			}
 
-			// Concatenate the returned slice into a single string.
+			// Concatenate the returned slice into a single string
 			expOut := strings.Join(expFiles, "\n")
 
+			//Remove the last new line from the result of run()
 			res := strings.TrimSpace(buffer.String())
 
 			if expOut != res {
 				t.Errorf("Expected %q, got %q instead\n", expOut, res)
 			}
 
-			// Validate the number of files archived
+			// The below tests that the files in the archived directory
+			// are the same number of files we wanted to archive.
+
+			// Validate the number of archived files
 			filesArchived, err := os.ReadDir(archiveDir)
 			if err != nil {
 				t.Fatal(err)
