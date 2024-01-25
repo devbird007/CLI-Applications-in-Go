@@ -45,6 +45,7 @@ func (hl *HostsList) Remove(host string) error {
 		hl.Hosts = append(hl.Hosts[:i], hl.Hosts[i+1:]...)
 		return nil
 	}
+
 	return fmt.Errorf("%w: %s", ErrNotExists, host)
 }
 
