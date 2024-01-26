@@ -2,6 +2,7 @@ package scan_test
 
 import (
 	"errors"
+	"os"
 	"testing"
 
 	"github.com/devbird007/pScan/scan"
@@ -104,5 +105,53 @@ func TestRemove(t *testing.T) {
 				t.Errorf("Host name %q should not be in the list\n", tc.host)
 			}
 		})
+	}
+}
+
+func TestSaveLoad(t *testing.T) {
+	// Create two lists
+	hl1 := scan.HostsList{}
+	hl2 := scan.HostsList{}
+
+	// Add a task to hl1
+	hostName := "host1"
+	hl1.Add(hostName)
+
+	// Create a temp file to be used in the save method and defer closure
+	tf, err := os.CreateTemp("", "")
+	if err != nil {
+		t.Fatalf("Error creating temp file: %s", err)
+	}
+	defer os.Remove(tf.Name())
+
+	// Save the data to the temp file with the Save method
+	if err := hl1.Save(tf.Name()); err != nil {
+		t.Fatalf("Error saving list to file: %s", err)
+	}
+
+	// Get the data into the second list with the Load method
+	if err := hl2.Load(tf.Name()); err != nil {
+		t.Fatalf("Error loading list from file: %s", err)
+	}
+
+	if hl1.Hosts[0] != hl2.Hosts[0] {
+		t.Errorf("Host %q should match %q host.", hl1.Hosts[0], hl2.Hosts[0])
+	}
+}
+
+func TestLoadNoFile(t *testing.T) {
+	tf, err := os.CreateTemp("", "")
+	if err != nil {
+		t.Fatalf("Error creating temp file: %s", err)
+	}
+
+	if err := os.Remove(tf.Name()); err != nil {
+		t.Fatalf("Error deleting temp file: %s", err)
+	}
+
+	hl := &scan.HostsList{}
+
+	if err := hl.Load(tf.Name()); err != nil {
+		t.Errorf("Expected no error, got %q instead\n", err)
 	}
 }
