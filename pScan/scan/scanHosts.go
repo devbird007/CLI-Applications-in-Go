@@ -53,19 +53,26 @@ type Results struct {
 
 // Run performs a port scan on the hosts list
 func Run(hl *HostsList, ports []int) []Results {
+	// Initialize the slice of Results that will be returned
 	res := make([]Results, 0, len(hl.Hosts))
 
+	// For each host in the hostlist, create an instance of the
+	// Result struct
 	for _, h := range hl.Hosts {
 		r := Results{
 			Host: h,
 		}
 
+		// If the host is invalid or cannot be found, denote its
+		// status in its Result struct, append it to our slice of
+		// Results and then move on to the next host.
 		if _, err := net.LookupHost(h); err != nil {
 			r.NotFound = true
 			res = append(res, r)
 			continue
 		}
 
+		// If the host in the last section can be found,
 		for _, p := range ports {
 			r.PortStates = append(r.PortStates, scanPort(h, p))
 		}
