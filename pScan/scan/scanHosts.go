@@ -76,7 +76,7 @@ func Run(hl *HostsList, ports []int) []Results {
 		for _, p := range ports {
 			r.PortStates = append(r.PortStates, scanPort(h, p))
 		}
-		res = append(res, r)
+		res = append(resp, r)
 	}
 	return res
 }
