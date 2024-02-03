@@ -11,7 +11,6 @@ import (
 	"os"
 
 	"github.com/devbird007/pScan/scan"
-
 	"github.com/spf13/cobra"
 )
 
@@ -54,7 +53,7 @@ func printResults(out io.Writer, results []scan.Results) error {
 		message += fmt.Sprintf("%s:", r.Host)
 
 		if r.NotFound {
-			message += " Host not found\n\n"
+			message += fmt.Sprintf(" Host not found\n\n")
 			continue
 		}
 
@@ -74,15 +73,5 @@ func printResults(out io.Writer, results []scan.Results) error {
 func init() {
 	rootCmd.AddCommand(scanCmd)
 
-	scanCmd.Flags().IntSliceP("ports", "p", []int{22, 80, 443}, "ports to scan")
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// scanCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// scanCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	scanCmd.Flags().IntSliceP("ports", "p", []int{22, 88, 443}, "ports to scan")
 }
