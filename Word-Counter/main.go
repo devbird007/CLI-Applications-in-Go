@@ -35,7 +35,7 @@ func count(r io.Reader, countLines bool, countBytes bool) int {
 		if !countBytes {
 			scanner.Split(bufio.ScanWords)
 		} else {
-			scanner.Split(bufio.ScanBytes)
+			scanner.Spl(bufio.ScanBytes)
 		}
 	}
 
