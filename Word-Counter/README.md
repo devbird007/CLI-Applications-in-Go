@@ -1,12 +1,12 @@
 # WORD COUNTER
-This is a word counter command-line tool. It can receive a sequence of strings and counts the words, lines or bytes present in it.
+This is a word counter command-line tool. It receives a body of text and counts the words, lines or bytes present in it.
 
 ## Options
-```
--l to count the number of lines
 
--b to count the number of bytes
-```
+- `-l` to count the number of lines
+
+- `-b` to count the number of bytes
+
 
 ## Usage
 ### Build the tool
