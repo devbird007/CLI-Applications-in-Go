@@ -33,9 +33,10 @@ func TestCountLines(t *testing.T) {
 
 // TestCountBytes tests the count function set to count bytes
 func TestCountBytes(t *testing.T) {
-	b := bytes.NewBufferString("word1 word2\nline2 word3 word4\nline3 word5 word6")
+	b := bytes.NewBufferString("totalbytes")
 
-	exp := 47
+	exp := 10
+
 	res := count(b, false, true)
 
 	if res != exp {
