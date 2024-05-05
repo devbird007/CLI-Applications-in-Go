@@ -53,3 +53,4 @@ You can also count from a file. Below is a demonstration:
 ```
 cat myfile.txt | ./wc
 ```
+<hr style="border:2px solid black">
