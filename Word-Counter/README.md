@@ -30,9 +30,13 @@ Output:
 5
 ```
 
-#### 2. Count Bines
+#### 2. Count Lines
 ```bash
 echo -e "This sentence\n is 2 lines." | ./wc -l
+```
+Output:
+```
+2
 ```
 
 #### 3. Count Bytes
