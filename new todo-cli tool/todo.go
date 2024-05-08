@@ -53,7 +53,7 @@ func (l *List) Delete(i int) error {
 		return fmt.Errorf("item %d does not exist", i)
 	}
 
-	*l = append(ls[i-1:], ls[i:]...)
+	*l = append(ls[:i-1], ls[i:]...)
 
 	return nil
 }
