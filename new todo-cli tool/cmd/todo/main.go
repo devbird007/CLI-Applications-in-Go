@@ -27,6 +27,7 @@ func main() {
 	add := flag.Bool("add", false, "Add task to the ToDo list")
 	list := flag.Bool("list", false, "List all tasks")
 	complete := flag.Int("complete", 0, "Item to be completed")
+	delete := flag.Int("delete", 0, "Item to be deleted")
 
 	flag.Parse()
 
@@ -79,6 +80,18 @@ func main() {
 			os.Exit(1)
 		}
 
+	case *delete > 0:
+		if err := l.Delete(*delete); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+
+		// Save the new list
+		if err := l.Save(todoFileName); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+
 	default:
 		// Invalid flag provided
 		fmt.Fprintln(os.Stderr, "Invalid option")
@@ -100,7 +113,7 @@ func getTask(r io.Reader, args ...string) (string, error) {
 	}
 
 	if len(s.Text()) == 0 {
-		return "", fmt.Errorf("Task cannot be blank")
+		return "", fmt.Errorf("task cannot be blank")
 	}
 
 	return s.Text(), nil

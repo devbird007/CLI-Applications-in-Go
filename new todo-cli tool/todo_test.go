@@ -30,6 +30,10 @@ func TestComplete(t *testing.T) {
 		t.Errorf("Expected %q, got %q instead", taskName, l[0].Task)
 	}
 
+	if l[0].Done {
+		t.Errorf("New task should not be completed.")
+	}
+
 	l.Complete(1)
 
 	if !l[0].Done {
